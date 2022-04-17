@@ -31,3 +31,12 @@ jobs:
     - name: Build the Prod Docker Nginx image
       run: docker build -t sanyaaxel/multi-docker-nginx ./nginx
 
+    - name: Publish Client
+      run: docker push sanyaaxel/multi-docker-client
+    - name: Publish API
+      run: docker push sanyaaxel/multi-docker-api
+    - name: Publish Worker
+      run: docker push sanyaaxel/multi-docker-worker
+    - name: Publish Nginx
+      run: docker push sanyaaxel/multi-docker-nginx
+
