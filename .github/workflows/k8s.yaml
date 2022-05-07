@@ -34,28 +34,18 @@ jobs:
       run: docker run -e CI=true sanyaaxel/multi-docker-client-test npm test -- --coverage
 
     - name: Build the Prod Docker Client image
-      run: docker build -t sanyaaxel/multi-docker-client:${{ github.sha }} ./client
+      run: docker build -t sanyaaxel/multi-docker-client:${{ github.sha }}  -t sanyaaxel/multi-docker-client:latest ./client
     - name: Build the Prod Docker API image
-      run: docker build -t sanyaaxel/multi-docker-api:${{ github.sha }} ./server
+      run: docker build -t sanyaaxel/multi-docker-api:${{ github.sha }} -t sanyaaxel/multi-docker-api:latest ./server
     - name: Build the Prod Docker Worker image
-      run: docker build -t sanyaaxel/multi-docker-worker:${{ github.sha }} ./worker
+      run: docker build -t sanyaaxel/multi-docker-worker:${{ github.sha }} -t sanyaaxel/multi-docker-worker:latest ./worker
 
     - name: Publish Client
-      run: docker push sanyaaxel/multi-docker-client:${{ github.sha }}
+      run: docker push sanyaaxel/multi-docker-client
     - name: Publish API
-      run: docker push sanyaaxel/multi-docker-api:${{ github.sha }}
+      run: docker push sanyaaxel/multi-docker-api
     - name: Publish Worker
-      run: docker push sanyaaxel/multi-docker-worker:${{ github.sha }}
-
-
-    - uses: azure/k8s-create-secret@v1
-      with:
-        container-registry-url: https://registry.hub.docker.com/v2/
-        container-registry-username: ${{ secrets.DOCKER_USERNAME }}
-        container-registry-password: ${{ secrets.DOCKER_PASSWORD }}
-        secret-name: ${{ env.SECRET }}
-        namespace: ${{ env.NAMESPACE }}
-        arguments: --force true
+      run: docker push sanyaaxel/multi-docker-worker
 
     - name: Deploy to Kubernetes cluster
       uses: Azure/k8s-deploy@v3.1
