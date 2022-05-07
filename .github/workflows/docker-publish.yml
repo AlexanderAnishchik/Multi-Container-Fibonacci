@@ -1,0 +1,55 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Login to Docker
+      run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+      
+    - name: Build the Dev Docker image
+      run: docker build -f ./client/Dockerfile.dev -t sanyaaxel/multi-docker-client-test ./client
+      
+    - name: Run Tests
+      run: docker run -e CI=true sanyaaxel/multi-docker-client-test npm test -- --coverage
+
+    - name: Build the Prod Docker Client image
+      run: docker build -t sanyaaxel/multi-docker-client ./client
+    - name: Build the Prod Docker API image
+      run: docker build -t sanyaaxel/multi-docker-api ./server
+    - name: Build the Prod Docker Worker image
+      run: docker build -t sanyaaxel/multi-docker-worker ./worker
+    - name: Build the Prod Docker Nginx image
+      run: docker build -t sanyaaxel/multi-docker-nginx ./nginx
+
+    - name: Publish Client
+      run: docker push sanyaaxel/multi-docker-client
+    - name: Publish API
+      run: docker push sanyaaxel/multi-docker-api
+    - name: Publish Worker
+      run: docker push sanyaaxel/multi-docker-worker
+    - name: Publish Nginx
+      run: docker push sanyaaxel/multi-docker-nginx
+      
+    - name: Generate deployment package
+      run: zip -r deploy.zip . -x '*.git*'
+         
+    - name: Deploy to EB
+      uses: einaregilsson/beanstalk-deploy@v20
+      with:
+        aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
+        aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
+        application_name: multi-docker
+        environment_name: Multidocker-env
+        region: us-east-1
+        version_label: ${{ github.sha }}
+        deployment_package: deploy.zip
