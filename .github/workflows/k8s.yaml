@@ -45,12 +45,8 @@ jobs:
     - name: Publish Nginx
       run: docker push sanyaaxel/multi-docker-nginx:${{ github.sha }}
 
-
-    - run: |
-      kubectl create namespace ${{ env.NAMESPACE }} --dry-run=client -o json | kubectl apply -f -  
-
   # Create image pull secret for ACR
-   - uses: azure/k8s-deploy@v1
+    - uses: azure/k8s-deploy@v1
       with:
         manifests: |
           ${{ github.workspace }}/k8s
