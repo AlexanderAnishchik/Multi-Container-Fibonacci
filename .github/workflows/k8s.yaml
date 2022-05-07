@@ -40,10 +40,10 @@ jobs:
       run: docker push sanyaaxel/multi-docker-api:${{ github.sha }}
     - name: Publish Worker
       run: docker push sanyaaxel/multi-docker-worker:${{ github.sha }}
-
-  # Create image pull secret for ACR
-    - uses: azure/k8s-deploy@v1
+    - name: Deploy to Kubernetes cluster
+      uses: Azure/k8s-deploy@v3.1
       with:
-        manifests: |
+        manifests:  |
           ${{ github.workspace }}/k8s
-        namespace: ${{ env.NAMESPACE }}
+        pull-images: true
+      
