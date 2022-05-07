@@ -32,7 +32,7 @@ jobs:
     - name: Build the Prod Docker API image
       run: docker build -t sanyaaxel/multi-docker-api:${{ github.sha }} ./server
     - name: Build the Prod Docker Worker image
-      run: docker build -t sanyaaxel/multi-docker-worker :${{ github.sha }} ./worker
+      run: docker build -t sanyaaxel/multi-docker-worker:${{ github.sha }} ./worker
     - name: Build the Prod Docker Nginx image
       run: docker build -t sanyaaxel/multi-docker-nginx:${{ github.sha }} ./nginx
 
