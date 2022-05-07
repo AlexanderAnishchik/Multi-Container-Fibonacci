@@ -53,4 +53,5 @@ jobs:
         manifests:  |
           ${{ github.workspace }}/k8s
         pull-images: true
-      
+        images: | 
+          sanyaaxel/multi-docker-client:${{ github.sha }}  sanyaaxel/multi-docker-api:${{ github.sha }} sanyaaxel/multi-docker-worker:${{ github.sha }}
