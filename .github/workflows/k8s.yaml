@@ -40,12 +40,19 @@ jobs:
     - name: Build the Prod Docker Worker image
       run: docker build -t sanyaaxel/multi-docker-worker:${{ github.sha }} -t sanyaaxel/multi-docker-worker:latest ./worker
 
+    - name: Publish Client latest
+      run: docker push sanyaaxel/multi-docker-client:latest
+    - name: Publish API latest
+      run: docker push sanyaaxel/multi-docker-api:latest
+    - name: Publish Worker latest
+      run: docker push sanyaaxel/multi-docker-worker:latest
+
     - name: Publish Client
-      run: docker push sanyaaxel/multi-docker-client
+      run: docker push sanyaaxel/multi-docker-client:${{ github.sha }}
     - name: Publish API
-      run: docker push sanyaaxel/multi-docker-api
+      run: docker push sanyaaxel/multi-docker-api:${{ github.sha }}
     - name: Publish Worker
-      run: docker push sanyaaxel/multi-docker-worker
+      run: docker push sanyaaxel/multi-docker-worker:${{ github.sha }}
 
     - name: Deploy to Kubernetes cluster
       uses: Azure/k8s-deploy@v3.1
