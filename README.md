@@ -1,4 +1,4 @@
-# fib-dockers
+# multi-container-fibonacci
 # Fibonacci calculation app (specially complicated with Redis and Postgres) built on docker's containers
 
 ![This is an image](https://upload.wikimedia.org/wikipedia/commons/3/35/Fibonacci2.jpg)
