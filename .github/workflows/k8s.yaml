@@ -33,8 +33,6 @@ jobs:
       run: docker build -t sanyaaxel/multi-docker-api:${{ github.sha }} ./server
     - name: Build the Prod Docker Worker image
       run: docker build -t sanyaaxel/multi-docker-worker:${{ github.sha }} ./worker
-    - name: Build the Prod Docker Nginx image
-      run: docker build -t sanyaaxel/multi-docker-nginx:${{ github.sha }} ./nginx
 
     - name: Publish Client
       run: docker push sanyaaxel/multi-docker-client:${{ github.sha }}
@@ -42,8 +40,6 @@ jobs:
       run: docker push sanyaaxel/multi-docker-api:${{ github.sha }}
     - name: Publish Worker
       run: docker push sanyaaxel/multi-docker-worker:${{ github.sha }}
-    - name: Publish Nginx
-      run: docker push sanyaaxel/multi-docker-nginx:${{ github.sha }}
 
   # Create image pull secret for ACR
     - uses: azure/k8s-deploy@v1
