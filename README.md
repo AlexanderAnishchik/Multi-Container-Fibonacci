@@ -19,5 +19,5 @@
 - master contains kubernetes cluster setup and Github Actions to deploy to Azure AWS
 
 ## How To Run
-- To run docker-compose execute "docker-compose up -f docker-compose-dev.yml --build" in a solution directory. Open "localhost:80" URL in browser
-- To run kubernetes execute "kubectl apply -f k8s" in a solution directory.
+- To run docker-compose execute "docker-compose up -f docker-compose-dev.yml --build" in a solution directory
+- To run kubernetes execute "kubectl apply -f k8s" in a solution directory. Open "localhost:80" URL in browser
